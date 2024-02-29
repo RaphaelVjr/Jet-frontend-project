@@ -16,6 +16,16 @@ import {
 import React from "react";
 import ReactStars from "react-stars";
 import { columns, rows } from "./data";
+
+interface Item {
+  id: string;
+  image: string;
+  car: string;
+  rating: string;
+  status: string;
+  [key: string]: any;
+}
+
 const DesktopTable = () => {
   type StatusColor =
     | "success"
@@ -26,17 +36,55 @@ const DesktopTable = () => {
     | "warning"
     | undefined;
 
+  type ColumnKey = keyof Item;
+
   const statusColorMap: Record<string, StatusColor> = {
     available: "success",
     unavailable: "danger",
   };
+  const renderCellContent = (item: Item, columnKey: ColumnKey) => {
+    const commonContent = (
+      <span className="text-sm leading-5">{getKeyValue(item, columnKey)}</span>
+    );
+
+    switch (columnKey) {
+      case "car":
+        return (
+          <>
+            <img
+              src={item.image}
+              alt={item.car}
+              width={48}
+              height={48}
+              className="inline-block mr-2"
+            />
+            {commonContent}
+          </>
+        );
+      case "rating":
+        return <ReactStars count={5} size={16} color2={"black"} />;
+      case "status":
+        return (
+          <Chip
+            className="capitalize text-green-800 rounded-md"
+            color={statusColorMap[item.status]}
+            size="sm"
+            variant="flat"
+          >
+            {item.status}
+          </Chip>
+        );
+      case "actions":
+        return <FontAwesomeIcon className="pl-8" icon={faEllipsisV} />;
+      default:
+        return commonContent;
+    }
+  };
 
   return (
     <div className="overflow-auto hidden md:block">
-      <Table
-        className="w-full"
-        aria-label="Example table with dynamic content"
-      ><TableHeader columns={columns}>
+      <Table className="w-full" aria-label="Example table with dynamic content">
+        <TableHeader columns={columns}>
           {(column) => (
             <TableColumn
               key={column.key}
@@ -53,43 +101,7 @@ const DesktopTable = () => {
                 <TableCell
                   className={`px-6 py-2 whitespace-no-wrap border-l-1 border-r-1 border-b-1 border-gray-200 text-black table-cell ${columnKey}`}
                 >
-                  {columnKey === "car" && (
-                    <>
-                        <img
-                          src={item.image}
-                          alt={item.car}
-                          width={48}
-                          height={48}
-                          className="inline-block mr-2"
-                        />
-                      <span className="text-sm leading-5">
-                        {getKeyValue(item, columnKey)}
-                      </span>
-                    </>
-                  )}
-                  {columnKey === "rating" && (
-                    <ReactStars count={5} size={16} color2={"black"} />
-                  )}
-                  {columnKey === "status" && (
-                    <Chip
-                      className="capitalize text-green-800 rounded-md"
-                      color={statusColorMap[item.status]}
-                      size="sm"
-                      variant="flat"
-                    >
-                      {item.status}
-                    </Chip>
-                  )}
-                  {columnKey === "actions" && (
-                    <FontAwesomeIcon className="pl-8" icon={faEllipsisV} />
-                  )}
-                  {columnKey !== "car" &&
-                    columnKey !== "rating" &&
-                    columnKey !== "status" && (
-                      <span className="text-sm leading-5">
-                        {getKeyValue(item, columnKey)}
-                      </span>
-                    )}
+                  {renderCellContent(item, columnKey)}
                 </TableCell>
               )}
             </TableRow>
