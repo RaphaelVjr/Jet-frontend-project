@@ -32,7 +32,7 @@ const DesktopTable = () => {
   };
 
   return (
-    <div className="hidden md:block">
+    <div className="overflow-auto hidden md:block">
       <Table
         className="w-full"
         aria-label="Example table with dynamic content"
@@ -55,20 +55,20 @@ const DesktopTable = () => {
                 >
                   {columnKey === "car" && (
                     <>
-                      <img
-                        src={item.image}
-                        alt={item.car}
-                        width={48}
-                        height={48}
-                        className="inline-block mr-2"
-                      />
+                        <img
+                          src={item.image}
+                          alt={item.car}
+                          width={48}
+                          height={48}
+                          className="inline-block mr-2"
+                        />
                       <span className="text-sm leading-5">
                         {getKeyValue(item, columnKey)}
                       </span>
                     </>
                   )}
                   {columnKey === "rating" && (
-                    <ReactStars count={5} size={24} color2={"black"} />
+                    <ReactStars count={5} size={16} color2={"black"} />
                   )}
                   {columnKey === "status" && (
                     <Chip
