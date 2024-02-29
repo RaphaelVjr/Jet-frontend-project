@@ -22,7 +22,7 @@ const MobileTable = () => {
           />
           <CardBody className="flex flex-row h-full">
             <div style={{ position: "relative" }}>
-              <CheckIcon style={{ position: "absolute", top: 0, left: 0 }} />
+              <CheckIcon className="pt-1 pr-1"style={{ position: "absolute", top: 0, left: 0 }} />
               <img
                 src={item.image}
                 alt={item.car}

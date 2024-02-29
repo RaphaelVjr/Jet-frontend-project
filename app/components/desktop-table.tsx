@@ -32,9 +32,9 @@ const DesktopTable = () => {
   };
 
   return (
-    <div className="overflow-auto hidden md:block">
+    <div className="hidden md:block">
       <Table
-        className="w-full border-collapse"
+        className="w-full"
         aria-label="Example table with dynamic content"
       ><TableHeader columns={columns}>
           {(column) => (
